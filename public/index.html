@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RASOI — Login &amp; Register</title>
+
+    <!-- Same fonts used across the RASOI site: Cinzel for headings, Poppins for body text -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+    <!-- 
+    HOW THE SWITCHING WORKS (no JavaScript!):
+    Two hidden radio buttons control which form is shown.
+    The <label> tags act like tabs. When a radio is :checked,
+    the CSS ~ (general sibling) selector is used to show/hide
+    the correct panel and move the sliding gold indicator.
+  -->
+    <input type="radio" name="auth-toggle" id="show-login" class="toggle-input" checked>
+    <input type="radio" name="auth-toggle" id="show-register" class="toggle-input">
+
+    <!-- Floating gold jali diamonds in the background, purely decorative -->
+    <div class="bg-motifs">
+        <span class="motif motif1">◆</span>
+        <span class="motif motif2">◆</span>
+        <span class="motif motif3">◆</span>
+    </div>
+
+    <div class="page-wrapper">
+
+        <!-- brand name at the top, matching the restaurant's logo style -->
+        <a href="#" class="brand">
+            <span class="brand-main">RASOI</span>
+            <span class="brand-sub">Royal Indian Kitchen</span>
+        </a>
+
+        <div class="auth-card">
+
+            <!-- Tabs to switch between Login and Register -->
+            <div class="tabs">
+                <label for="show-login" class="tab-label tab-login">Login</label>
+                <label for="show-register" class="tab-label tab-register">Register</label>
+                <div class="tab-slider"></div>
+            </div>
+
+            <!-- Sliding container that holds both forms side by side -->
+            <div class="forms-track">
+
+                <!-- ================= LOGIN FORM ================= -->
+                <div class="form-panel login-panel">
+
+                    <div class="jali-divider">
+                        <svg width="16" height="16" viewBox="0 0 18 18">
+                            <path d="M9 0 L18 9 L9 18 L0 9 Z" fill="none" stroke="currentColor" />
+                        </svg>
+                    </div>
+
+                    <h2 class="form-title">Welcome Back!</h2>
+                    <p class="form-subtitle">Login to continue your royal dining journey</p>
+
+                    <form class="auth-form" id="login-form">
+                        <div class="input-group">
+                            <label for="login-email">Email Address</label>
+                            <input type="email" id="login-email" name="email" type="email" autocomplete="email" maxlength="254" placeholder="Enter your email" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="login-password">Password</label>
+                            <input type="password" id="login-password" name="password" type="password" autocomplete="current-password" maxlength="72" placeholder="Enter your password" required>
+                        </div>
+
+                        <div class="form-row">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="remember-me">
+                                Remember Me
+                            </label>
+                            <a href="#" class="forgot-link">Forgot Password?</a>
+                        </div>
+
+                        <p class="form-message" id="login-message" role="status" aria-live="polite"></p>
+                        <button type="submit" class="submit-btn">Login</button>
+                    </form>
+
+                    <p class="switch-text">
+                        Don't have an account?
+                        <label for="show-register" class="switch-link">Register here</label>
+                    </p>
+                </div>
+
+                <!-- ================= REGISTER FORM ================= -->
+                <div class="form-panel register-panel">
+
+                    <div class="jali-divider">
+                        <svg width="16" height="16" viewBox="0 0 18 18">
+                            <path d="M9 0 L18 9 L9 18 L0 9 Z" fill="none" stroke="currentColor" />
+                        </svg>
+                    </div>
+
+                    <h2 class="form-title">Create Account</h2>
+                    <p class="form-subtitle">Join RASOI and reserve your table with ease</p>
+
+                    <form class="auth-form" id="register-form">
+                        <div class="input-group">
+                            <label for="reg-name">Full Name</label>
+                            <input type="text" id="reg-name" name="fullName" autocomplete="name" minlength="2" maxlength="100" placeholder="Enter your full name" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="reg-email">Email</label>
+                            <input type="email" id="reg-email" name="email" autocomplete="email" maxlength="254" placeholder="Enter your email" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="reg-password">Password</label>
+                            <input type="password" id="reg-password" name="password" autocomplete="new-password" minlength="8" maxlength="72" placeholder="Create a password" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="reg-confirm">Confirm Password</label>
+                            <input type="password" id="reg-confirm" name="confirmPassword" autocomplete="new-password" minlength="8" maxlength="72" placeholder="Re-enter your password" required>
+                        </div>
+
+                        <p class="form-message" id="register-message" role="status" aria-live="polite"></p>
+                        <button type="submit" class="submit-btn">Register</button>
+                    </form>
+
+                    <p class="switch-text">
+                        Already have an account?
+                        <label for="show-login" class="switch-link">Login here</label>
+                    </p>
+                </div>
+
+            </div><!-- /forms-track -->
+
+        </div><!-- /auth-card -->
+    </div><!-- /page-wrapper -->
+
+    <dialog id="forgot-dialog"><form method="dialog"><h2>Password recovery</h2><p>Password recovery is not configured yet. Please contact the restaurant team for help.</p><button class="submit-btn">Close</button></form></dialog>
+    <script src="/script.js" defer></script>
+</body>
+
+</html>
+

@@ -1,0 +1,442 @@
+/* =========================================================
+   RASOI — LOGIN & REGISTER PAGE
+   Reuses the same colour tokens, fonts and gold "jali" motif
+   as the main RASOI restaurant site, so the auth page feels
+   like part of the same brand.
+   ========================================================= */
+
+/* ============ 1. TOKENS & RESET ============ */
+:root {
+    /* Colour tokens (same as RASOI site) */
+    --ink: #0d0d0d;
+    --surface: #17110f;
+    --surface-2: #1e1613;
+    --gold: #d4af37;
+    --gold-light: #e8c766;
+    --gold-dim: #8a7327;
+    --ivory: #f3ecd9;
+    --stone: #9c9088;
+    --line: rgba(212, 175, 55, 0.22);
+
+    /* Type */
+    --font-display: "Cinzel", "Times New Roman", serif;
+    --font-body: "Poppins", "Segoe UI", sans-serif;
+
+    /* Layout */
+    --radius: 14px;
+    --transition: 0.35s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background: var(--ink);
+    color: var(--ivory);
+    font-family: var(--font-body);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* ==========================================================
+   HIDE THE RADIO BUTTONS USED FOR LOGIN/REGISTER SWITCHING
+   These radios are the "brain" of the CSS-only toggle.
+   ========================================================== */
+.toggle-input {
+    display: none;
+}
+
+/* ==========================================================
+   BACKGROUND FLOATING GOLD MOTIFS (decorative)
+   Demonstrates: @keyframes + animation + transform
+   ========================================================== */
+.bg-motifs {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.motif {
+    position: absolute;
+    color: var(--gold);
+    opacity: 0.12;
+    font-size: 90px;
+}
+
+.motif1 {
+    top: 8%;
+    left: 10%;
+    animation: floatUpDown 6s ease-in-out infinite;
+}
+
+.motif2 {
+    bottom: 10%;
+    right: 8%;
+    font-size: 70px;
+    animation: floatUpDown 5s ease-in-out infinite;
+    animation-delay: 1s;
+}
+
+.motif3 {
+    top: 55%;
+    left: 4%;
+    font-size: 55px;
+    animation: floatUpDown 7s ease-in-out infinite;
+    animation-delay: 2s;
+}
+
+/* Keyframe #1: simple up-down floating movement for background motifs */
+@keyframes floatUpDown {
+    0% {
+        transform: translateY(0px) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-22px) rotate(8deg);
+    }
+
+    100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+}
+
+/* ==========================================================
+   PAGE WRAPPER & BRAND NAME
+   ========================================================== */
+.page-wrapper {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 22px;
+    text-decoration: none;
+}
+
+.brand-main {
+    font-family: var(--font-display);
+    font-size: 28px;
+    letter-spacing: 0.12em;
+    color: var(--gold-light);
+}
+
+.brand-sub {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--stone);
+    margin-top: 4px;
+}
+
+/* ==========================================================
+   AUTH CARD - main login/register box
+   Demonstrates: entrance animation using @keyframes
+   ========================================================== */
+.auth-card {
+    width: 400px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+    animation: cardEntrance 0.8s ease;
+}
+
+/* Keyframe #2: card entrance - fades in and slides up slightly */
+@keyframes cardEntrance {
+    0% {
+        opacity: 0;
+        transform: translateY(40px) scale(0.95);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ==========================================================
+   TABS (Login / Register labels)
+   ========================================================== */
+.tabs {
+    position: relative;
+    display: flex;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--line);
+}
+
+.tab-label {
+    flex: 1;
+    text-align: center;
+    padding: 18px 0;
+    font-family: var(--font-display);
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--stone);
+    cursor: pointer;
+    z-index: 2;
+    transition: color var(--transition);
+    /* smooth text color change */
+}
+
+/* Sliding gold highlight bar behind the active tab */
+.tab-slider {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold-dim), var(--gold-light));
+    transition: transform 0.4s ease;
+    /* smooth slide transition */
+}
+
+/* When Register tab is checked, move the slider to the right
+   and change the active tab text color.
+   This works because the radios are siblings of .page-wrapper,
+   so we can "reach into" the page using the ~ combinator. */
+#show-register:checked~.page-wrapper .tab-slider {
+    transform: translateX(100%);
+}
+
+#show-login:checked~.page-wrapper .tab-login {
+    color: var(--gold-light);
+}
+
+#show-register:checked~.page-wrapper .tab-register {
+    color: var(--gold-light);
+}
+
+/* ==========================================================
+   FORMS TRACK - the sliding container
+   Holds both Login and Register panels side-by-side.
+   Demonstrates: CSS transform + transition for sliding animation
+   ========================================================== */
+.forms-track {
+    display: flex;
+    width: 200%;
+    /* two panels, each 100% of the card width */
+    transition: transform 0.5s ease-in-out;
+    /* smooth slide transition */
+}
+
+.form-panel {
+    width: 50%;
+    padding: 34px 32px 28px;
+    text-align: center;
+    animation: fadeIn 0.6s ease;
+}
+
+/* Keyframe #3: simple fade-in used for the form content */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* When Register is selected, slide the track to the left by 50%
+   so the register panel comes into view */
+#show-register:checked~.page-wrapper .forms-track {
+    transform: translateX(-50%);
+}
+
+/* ==========================================================
+   GOLD JALI DIAMOND DIVIDER (same motif as the restaurant site)
+   ========================================================== */
+.jali-divider {
+    display: flex;
+    justify-content: center;
+    color: var(--gold);
+    margin-bottom: 14px;
+}
+
+/* ==========================================================
+   FORM TITLES
+   ========================================================== */
+.form-title {
+    font-family: var(--font-display);
+    font-size: 24px;
+    color: var(--ivory);
+    margin-bottom: 6px;
+}
+
+.form-subtitle {
+    font-size: 12.5px;
+    color: var(--stone);
+    margin-bottom: 24px;
+}
+
+/* ==========================================================
+   INPUT FIELDS
+   Demonstrates: focus transition
+   ========================================================== */
+.input-group {
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.input-group label {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--stone);
+    margin-bottom: 6px;
+}
+
+.input-group input {
+    padding: 11px 13px;
+    background: rgba(13, 13, 13, 0.6);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    color: var(--ivory);
+    font-family: var(--font-body);
+    font-size: 14px;
+    outline: none;
+    transition: border-color var(--transition), box-shadow var(--transition);
+    /* smooth focus transition */
+}
+
+.input-group input::placeholder {
+    color: var(--stone);
+    opacity: 0.7;
+}
+
+.input-group input:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+}
+
+/* ==========================================================
+   REMEMBER ME + FORGOT PASSWORD ROW
+   ========================================================== */
+.form-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+    font-size: 12.5px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--stone);
+    cursor: pointer;
+}
+
+.forgot-link {
+    color: var(--gold-light);
+    text-decoration: none;
+    transition: color var(--transition);
+}
+
+.forgot-link:hover {
+    color: var(--gold);
+    text-decoration: underline;
+}
+
+/* ==========================================================
+   SUBMIT BUTTON
+   Demonstrates: hover animation + transition
+   ========================================================== */
+.submit-btn {
+    width: 100%;
+    padding: 13px;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold) 60%, var(--gold-dim));
+    color: var(--ink);
+    border: none;
+    border-radius: 4px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    /* smooth hover transition */
+}
+
+.submit-btn:hover {
+    box-shadow: 0 10px 26px -8px rgba(212, 175, 55, 0.55);
+    transform: translateY(-3px);
+    /* small lift effect on hover */
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+    /* pressed effect */
+}
+
+/* ==========================================================
+   SWITCH TEXT (bottom link to toggle forms)
+   ========================================================== */
+.switch-text {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 12.5px;
+    color: var(--stone);
+}
+
+.switch-link {
+    color: var(--gold-light);
+    font-weight: 600;
+    cursor: pointer;
+    transition: color var(--transition);
+}
+
+.switch-link:hover {
+    color: var(--gold);
+    text-decoration: underline;
+}
+
+/* ==========================================================
+   RESPONSIVE DESIGN - for mobile screens
+   ========================================================== */
+@media (max-width: 480px) {
+    .auth-card {
+        width: 92%;
+        margin: 0 12px;
+    }
+
+    .brand-main {
+        font-size: 24px;
+    }
+
+    .form-panel {
+        padding: 26px 20px 22px;
+    }
+
+    .motif {
+        font-size: 50px;
+        opacity: 0.08;
+        /* keep motifs subtle on smaller screens */
+    }
+}.form-message{min-height:16px;margin:0 0 8px;text-align:center;font-size:12px;color:#f0a19a}.form-message.success{color:#a8d3a2}.submit-btn:disabled{opacity:.65;cursor:wait}dialog{max-width:calc(100% - 32px);border:1px solid var(--gold);border-radius:var(--radius);background:var(--surface);color:var(--ivory);padding:24px}dialog::backdrop{background:#000b}dialog p{margin:12px 0 20px;color:var(--stone);font:13px var(--font-body)}dialog .submit-btn{width:100%} @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
